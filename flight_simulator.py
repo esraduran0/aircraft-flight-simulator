@@ -2,28 +2,46 @@ import math
 import matplotlib.pyplot as plt
 import numpy as np
 
-pitch = 10 #pitch in degrees
-speed = 100 
-altitude = 1000
-dt = 0.1
-time = 0
+# ============================================================
+# Simulation Constants
+# ============================================================
+
+# --- Aircraft Parameters ---
+PITCH_DEG = 10
+SPEED_MPS = 100
+INITIAL_ALTITUDE_M = 1000
+
+# --- Time Settings ---
+INITIAL_TIME_S = 0
+DT_S = 0.1
+SIMULATION_DURATION_S = 10
+
+
+# --- Turbulence Model ---
+TURBULENCE_MEAN_MPS = 0
+TURBULENCE_STD_MPS = 0.5
+
+# --- State Initialization ---
+altitude = INITIAL_ALTITUDE_M
+time = INITIAL_TIME_S
 
 time_list = []
 altitude_list = []
 vertical_speed_list = []
 
-while time < 10:
-    time += dt  # Increment time by dt
+pitch_rad = math.radians(PITCH_DEG)  # Convert pitch to radians
+
+while time < SIMULATION_DURATION_S:
+    time += DT_S  # Increment time by dt
     time = round(time, 2) # Round time to 2 decimal places for better readability
     
-    pitch_rad = math.radians(pitch)  # Convert pitch to radians
 
-    turbulence = np.random.normal(0,0.5) # Simulate turbulence as a random value from a normal distribution with mean 0 and standard deviation 0.5
+    turbulence = np.random.normal(TURBULENCE_MEAN_MPS, TURBULENCE_STD_MPS) # Simulate turbulence as a random value from a normal distribution with mean and standard deviation
 
-    vertical_speed = speed * math.sin(pitch_rad) + turbulence # Calculate vertical speed based on pitch and add turbulence effect
+    vertical_speed = SPEED_MPS * math.sin(pitch_rad) + turbulence # Calculate vertical speed based on pitch and add turbulence effect
     
 
-    altitude += vertical_speed * dt # Update altitude based on vertical speed and time step
+    altitude += vertical_speed * DT_S # Update altitude based on vertical speed and time step
     
 
     time_list.append(time)  # Append current time to the list
